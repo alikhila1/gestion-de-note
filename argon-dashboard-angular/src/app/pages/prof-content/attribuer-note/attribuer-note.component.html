@@ -1,0 +1,104 @@
+<div class="header pb-8 pt-5 pt-md-2" style="min-height: 600px; background-image: url(assets/img/theme/cover.jpg); background-size: cover; background-position: center top;">
+    <!-- Mask -->
+    <span class="mask bg-gradient-default opacity-8"></span>
+    <!-- Header container -->
+
+    <div class="container-fluid mt--7">
+        <br><br><br><br><br><br><br><br><br>
+        <div class="row">
+            <div class="col-xl-7 col-lg-10">
+                <h6 class="display-3 text-white"> {{ name }}</h6>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+
+            <div [hidden]="!show" class="col order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">Attribuer une note</h3>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form role="form" [formGroup]="attribuerNoteForm">
+
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group formm">
+                                            <label class="form-control-label" for="input-grouoe">Groupe:</label>
+                                            <select (change)="onGroupeSelected($event.target.value)" formControlName="groupe" class="form-control text-dark" [ngClass]="
+                      Groupe.dirty && Groupe.errors ? 'is-invalid' : ''
+                    ">
+                        <div class="invalid-feedback">
+                          Ce champs est obligatoire
+                        </div>
+                        <option  value="" disabled selected>
+                          Choisissez Groupe
+                        </option>
+                        <option  [value]="gp.id" *ngFor="let gp of groupes" > {{gp.niveau}} {{gp.nom}} {{gp.spec.nom}}</option>
+                      </select>
+                                            <div class="invalid-feedback">
+                                                Ce champs est obligatoire
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group formm">
+                                            <label class="form-control-label">Matiere:</label>
+                                            <select formControlName="matiere" class="form-control text-dark" [ngClass]="
+                      Matiere.dirty && Matiere.errors ? 'is-invalid' : ''
+                    ">
+    
+                        <option value="" disabled selected>
+                          Choisissez Matiere
+                        </option>
+                        <option [value]="matiere.nom" *ngFor="let matiere of matieres"> {{matiere.nom}}</option>
+                      </select>
+                                            <div class="invalid-feedback">
+                                                Ce champs est obligatoire
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group formm">
+                                            <label class="form-control-label" for="input-etudiant">Importer PV :</label>
+
+
+                                            <div class="mb-3">
+                                                <input formControlName="pv" class="form-control" type="file" id="formFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="uploadFile($event)" />
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Ce champs est obligatoire
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-warning my-4 " [disabled]="attribuerNoteForm?.invalid " (click)="successSwal()"><span
+                    class="btn-inner--icon"><i class="fa fa-check-circle" aria-hidden="true"></i></span> Attribuer
+                  note</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div></div>
+        </div>
+    </div>

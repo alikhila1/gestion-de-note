@@ -1,0 +1,570 @@
+<div class="header  pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Etudiants</h3>
+                        </div>
+                        <div class="col-line">
+                            <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+                                <div class="form-group- mb-0" [ngClass]="{ focused: focus === true }"></div>
+                            </form>
+                        </div>
+                        <div class="col-line">
+                            <button type="button" class="btn btn-success btn-xs add_new" (click)="openAjout(classic1, 'modal_mini', 'lg')">
+                <i class="fa fa-user-plus" aria-hidden="true"></i> Nouveau
+                Etudiant
+              </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-darker">Nom et Prénom</th>
+                                <th class="text-darker">Email</th>
+                                <th class="text-darker">Nationalité</th>
+                                <th class="text-darker">Groupe|Specialité</th>
+                                <th class="text-darker">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="list">
+                            <tr *ngFor="let eLocal of etudiants">
+                                <td>{{ eLocal.user_nom }} {{ eLocal.user_pre }}</td>
+                                <td>{{ eLocal.user_mail }}</td>
+                                <td>Tunisienne</td>
+                                <td>
+                                    {{ eLocal.group_niveau }} {{ eLocal.spec_nom}} {{ eLocal.groupe_nom}}
+                                </td>
+
+                                <td>
+                                    <a (click)="
+                      openModifier(
+                        classic2,
+                        'modal_mini',
+                        'lg',
+                        eLocal,'local'
+                      )
+                    " class="edit" title="Edit" placement="top" ngbTooltip="Modifier"><i class="material-icons">&#xE254;</i></a
+                  >
+                  <a
+                    class="delete"
+                    (click)="confirmSwal(eLocal.id, 'local')"
+                    placement="top"
+                    ngbTooltip="Supprimer"
+                    ><i class="material-icons">&#xE872;</i></a
+                  >
+                </td>
+              </tr>
+              <tr
+                *ngFor="
+                  let eEtranger of etudiantsEtr | slice : startIndex : endIndex
+                "
+              >
+                <td>{{ eEtranger.nom }} {{ eEtranger.prenom }}</td>
+                <td>{{ eEtranger.mail }}</td>
+                <td>{{ eEtranger.nat }}</td>
+                <td>
+                  {{ eEtranger.grp.niveau }} {{ eEtranger.grp.nom }}|{{
+                    eEtranger.grp.spec.nom
+                  }}
+                </td>
+
+                <td>
+                  <a
+                    (click)="
+                      openModifier(
+                        classic2,
+                        'modal_mini',
+                        'lg',
+                        eEtranger,'etranger')
+                    "
+                    class="edit"
+                    title="Edit"
+                    placement="top"
+                    ngbTooltip="Modifier"
+                    ><i class="material-icons">&#xE254;</i></a
+                  >
+                  <a
+                    class="delete"
+                    (click)="confirmSwal(eEtranger.id, 'etranger')"
+                    placement="top"
+                    ngbTooltip="supprimer"
+                    ><i class="material-icons">&#xE872;</i></a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-footer py-4">
+          <nav aria-label="...">
+            <ul class="pagination justify-content-end mb-0">
+              <li
+                class="page-item"
+                [ngClass]="{ notDisplay: currentItem == 0 || taille == 0 }"
+              >
+                <a
+                  class="page-link"
+                  (click)="updateIndex(currentItem - 1)"
+                  href="javascript:void(0)"
+                >
+                  <i class="fas fa-angle-left"></i>
+                  <span class="sr-only">Previous</span>
+                </a>
+                                    </li>
+
+                                    <li *ngFor="let i of pageItems; let in = index" class="page-item" [ngClass]="{ active: currentItem == in }">
+                                        <a class="page-link" (click)="updateIndex(in)" href="javascript:void(0)">{{ in + 1 }}
+                </a>
+                                    </li>
+
+                                    <li class="page-item" [ngClass]="{
+                  notDisplay: currentItem == taille - 1 || taille == 0
+                }">
+                                        <a class="page-link" (click)="updateIndex(currentItem + 1)" href="javascript:void(0)">
+                                            <i class="fas fa-angle-right"></i>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                    </ul>
+                                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #classic1 let-c="close" let-d="dismiss">
+    <div class="modal-content">
+        <div class="modal-body p-0">
+            <div class="card bg-secondary shadow border-0">
+                <div class="card-header bg-white">
+                    <button (click)="annuler()" style="border: none;background: none; margin-left: 97%;">
+            <img  [src]="closeImage" style="border-style: none; width: 10px; height: 10px;">
+            </button>
+                    <div class="text-muted text-center">
+                        <h3>Ajouter un etudiant</h3>
+                    </div>
+                </div>
+                <div class="card-body px-lg-5 py-lg-5">
+                    <div class="text-muted text-center">
+                        <button type="button" class="btn btn-primary btn-xs" style="width: 180px; height: 40px" (click)="changeType()">
+              <span *ngIf="dispLo">Etudiant Local</span
+              ><span *ngIf="dispEt">Etudiant Etranger</span>
+            </button>
+                    </div>
+                    <br />
+                    <form role="form" [formGroup]="addFormEtudiant" (ngSubmit)="add_etudiant()">
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="exampleFormControlTextarea1" class="text-dark">Nom :</label
+                >
+              </div>
+              <div class="col">
+                <label for="exampleFormControlTextarea1" class="text-dark"
+                  >Prénom :</label
+                >
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group mb-3">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-single-02"></i
+                      ></span>
+                    </div>
+                    <input
+                      class="form-control text-dark"
+                      formControlName="nom"
+                      placeholder="Nom"
+                      type="text"
+                      [ngClass]="
+                        (Nom?.touched || Nom?.dirty) && Nom?.errors
+                          ? 'is-invalid'
+                          : ''
+                      "
+                    />
+                    <div class="invalid-feedback">
+                      Ce champs est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group mb-3">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-single-02"></i
+                      ></span>
+                    </div>
+                    <input
+                      class="form-control text-dark"
+                      placeholder="Prénom"
+                      formControlName="prenom"
+                      type="text"
+                      [ngClass]="
+                        (Prenom?.touched || Prenom?.dirty) && Prenom?.errors
+                          ? 'is-invalid'
+                          : ''
+                      "
+                    />
+                    <div class="invalid-feedback">
+                      Ce champs est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <label for="exampleFormControlTextarea1" class="text-dark"
+                  >Email :</label
+                >
+              </div>
+              <div class="col">
+                <label
+                  for="exampleFormControlTextarea1"
+                  class="text-dark"
+                  *ngIf="dispLo"
+                  >Cin :</label
+                >
+                <label
+                  *ngIf="dispEt"
+                  for="exampleFormControlTextarea1"
+                  class="text-dark"
+                  >Num Passport :</label
+                >
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-6">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-email-83"></i
+                      ></span>
+                    </div>
+                    <input
+                      class="form-control text-dark"
+                      placeholder="Email"
+                      formControlName="mail"
+                      type="email"
+                      [ngClass]="
+                        (Mail?.touched || Mail?.dirty) && Mail?.errors
+                          ? 'is-invalid'
+                          : ''
+                      "
+                    />
+                    <div class="invalid-feedback">
+                      Ce champs est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <div
+                    class="input-group input-group-alternative"
+                    *ngIf="dispLo"
+                  >
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-email-83"></i
+                      ></span>
+                    </div>
+                    <input
+                      class="form-control text-dark"
+                      placeholder="Cin"
+                      formControlName="cin"
+                      type="text"
+                      [ngClass]="
+                        (Cin?.touched || Cin?.dirty) && Cin?.errors
+                          ? 'is-invalid'
+                          : ''
+                      "
+                    />
+                    <div class="invalid-feedback">
+                      Ce champs est obligatoire
+                    </div>
+                  </div>
+                  <div
+                    class="input-group input-group-alternative"
+                    *ngIf="dispEt"
+                  >
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-email-83"></i
+                      ></span>
+                    </div>
+                    <input
+                      class="form-control text-dark"
+                      placeholder="Num Passport"
+                      formControlName="numPass"
+                      type="text"
+                      [ngClass]="
+                        (NumPass?.touched || NumPass?.dirty) && NumPass?.errors
+                          ? 'is-invalid'
+                          : ''
+                      "
+                    />
+                    <div class="invalid-feedback">
+                      Ce champs est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <label
+                  *ngIf="dispEt"
+                  for="exampleFormControlTextarea1"
+                  class="text-dark"
+                  >Nationalité :</label
+                >
+                <label
+                  *ngIf="dispLo"
+                  for="exampleFormControlTextarea1"
+                  class="text-dark"
+                  >Groupe :</label
+                >
+              </div>
+              <div class="col">
+                <label
+                  *ngIf="dispEt"
+                  for="exampleFormControlTextarea1"
+                  class="text-dark"
+                  >Groupe :</label
+                >
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col" *ngIf="dispEt">
+                <div class="input-group input-group-alternative" *ngIf="dispEt">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="ni ni-email-83"></i
+                    ></span>
+                  </div>
+                  <input
+                    class="form-control text-dark"
+                    placeholder="Nationnalité"
+                    formControlName="nat"
+                    type="text"
+                    [ngClass]="
+                      (Nat?.touched || Nat?.dirty) && Nat?.errors
+                        ? 'is-invalid'
+                        : ''
+                    "
+                  />
+                  <div class="invalid-feedback">Ce champs est obligatoire</div>
+                </div>
+                <br />
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-badge"></i
+                      ></span>
+                    </div>
+
+                    <select
+                      formControlName="groupe"
+                      class="form-control text-dark"
+                      [ngClass]="
+                        Groupe.dirty && Groupe.errors ? 'is-invalid' : ''
+                      "
+                    >
+                      <div class="invalid-feedback">
+                        Ce champs est obligatoire
+                      </div>
+                      <option value="" disabled selected>
+                        Choisissez Groupe
+                      </option>
+                      <option [value]="gp.id" *ngFor="let gp of groupes">
+                        {{ gp.niveau }} {{ gp.nom }} {{ gp.spec.nom }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="font-size: 13px">
+              *Nom d'utilisateur et mot de passe seront envoyés par e-mail au
+              etudiant ajouté
+            </div>
+
+            <div class="text-center">
+              <button
+                type="submit"
+                [disabled]="addFormEtudiant?.invalid"
+                class="btn btn-primary my-4"
+                (click)="successSwalAjout()"
+              >
+                <span class="btn-inner--icon"><i class="fa fa-plus"></i></span>
+                Ajouter le nouveau etudiant
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #classic2 let-c="close" let-d="dismiss">
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-header bg-white">
+          <button (click)="annuler()" style="border: none;background: none; margin-left: 97%;">
+            <img  [src]="closeImage" style="border-style: none; width: 10px; height: 10px;">
+            </button>
+          <div class="text-muted text-center">
+            <h3>Modifier un etudiant</h3>
+          </div>
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+         
+          <br />
+          <form
+            role="form"
+            [formGroup]="updateFormEtudiant"
+            (ngSubmit)="update_etudiant()"
+          >
+            <div class="form-row">
+              <div class="col">
+                <label for="exampleFormControlTextarea1" class="text-dark"
+                  >Nom :</label
+                >
+              </div>
+              <div class="col">
+                <label for="exampleFormControlTextarea1" class="text-dark"
+                  >Prénom :</label
+                >
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group mb-3">
+                  <div class=" input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-single-02"></i
+                      ></span>
+                    </div>
+                    <input
+                      class="form-control text-dark"
+                      formControlName="nom"
+                      placeholder="Nom"
+                      type="text"
+                      [ngClass]="
+                        (Nom?.touched || Nom?.dirty) && Nom?.errors
+                          ? 'is-invalid'
+                          : ''
+                      "
+                    />
+                    <div class="invalid-feedback">
+                      Ce champs est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group mb-3">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-single-02"></i
+                      ></span>
+                    </div>
+                    <input
+                      class="form-control text-dark"
+                      placeholder="Prénom"
+                      formControlName="prenom"
+                      type="text"
+                      [ngClass]="
+                        (Prenom?.touched || Prenom?.dirty) && Prenom?.errors
+                          ? 'is-invalid'
+                          : ''
+                      "
+                    />
+                    <div class="invalid-feedback">
+                      Ce champs est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <label for="exampleFormControlTextarea1" class="text-dark"
+                  >Email :</label
+                >
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-6">
+                <div class="form-group">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-email-83"></i
+                      ></span>
+                    </div>
+                    <input
+                      class="form-control text-dark"
+                      placeholder="Email"
+                      formControlName="mail"
+                      type="email"
+                      [ngClass]="
+                        (Mail?.touched || Mail?.dirty) && Mail?.errors
+                          ? 'is-invalid'
+                          : ''
+                      "
+                    />
+                    <div class="invalid-feedback">
+                      Ce champs est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button
+                type="submit"
+                class="btn btn-primary my-4"
+                
+              >
+                <span class="btn-inner--icon"><i class="fa fa-plus"></i></span>
+                Modifier l'étudiant
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

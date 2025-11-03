@@ -1,0 +1,327 @@
+<div class="header  pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Groupes</h3>
+                        </div>
+                        <div class="col-line">
+                            <button type="button" class="btn btn-success btn-xs add_new" (click)="openAjout(classic1, 'modal_mini', 'lg')">
+                <i class="fa fa-user-plus" aria-hidden="true"></i> Nouveau
+                Groupe
+              </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-darker">Niveau</th>
+                                <th class="text-darker">Nom</th>
+                                <th class="text-darker">Matieres</th>
+                                <th class="text-darker">Specialite</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="list">
+                            <tr *ngFor="let groupe of groupes | slice : startIndex : endIndex">
+                                <td>{{ groupe.niveau }}</td>
+                                <td>{{ groupe.nom }}</td>
+                                <td>
+                                    <a class="badge badge-danger" (click)="openAjoutMat(classic3, 'modal_mini', 'lg',groupe)">Ajouter Matiere</a
+                  ><br />
+
+                  
+                  <button
+                    type="button"
+                    (click)="openMatieres(classic2, 'modal_mini', 'lg', groupe)"
+                    class="btn btn-outline-default btn-sm"
+                    style="margin-bottom: 2px"
+                  >
+                    Voir Matieres
+                  </button>
+                </td>
+                <td>{{ groupe.spec.nom }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card-footer py-4">
+          <nav aria-label="...">
+            <ul class="pagination justify-content-end mb-0">
+              <li
+                class="page-item"
+                [ngClass]="{ notDisplay: currentItem == 0 || taille == 0 }"
+              >
+                <a
+                  class="page-link"
+                  (click)="updateIndex(currentItem - 1)"
+                  href="javascript:void(0)"
+                >
+                  <i class="fas fa-angle-left"></i>
+                  <span class="sr-only">Previous</span>
+                </a>
+                                    </li>
+
+                                    <li *ngFor="let i of pageItems; let in = index" class="page-item" [ngClass]="{ active: currentItem == in }">
+                                        <a class="page-link" (click)="updateIndex(in)" href="javascript:void(0)">{{ in + 1 }}
+                </a>
+                                    </li>
+
+                                    <li class="page-item" [ngClass]="{
+                  notDisplay: currentItem == taille - 1 || taille == 0
+                }">
+                                        <a class="page-link" (click)="updateIndex(currentItem + 1)" href="javascript:void(0)">
+                                            <i class="fas fa-angle-right"></i>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                    </ul>
+                                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #classic1 let-c="close" let-d="dismiss">
+    <div class="modal-content">
+
+        <div class="modal-body p-0">
+
+            <div class="card bg-secondary shadow border-0">
+                <div class="card-header bg-white">
+                    <button (click)="annuler()" style="border: none;background: none; margin-left: 97%;">
+                    <img  [src]="closeImage" style="border-style: none; width: 10px; height: 10px;">
+                    </button>
+                    <div class="text-muted text-center">
+                        <h3>Ajouter un groupe</h3>
+                    </div>
+
+
+                </div>
+
+                <div class="card-body px-lg-5 py-lg-5">
+                    <form role="form" [formGroup]="addFormGroupe" (ngSubmit)="add_groupe()">
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="exampleFormControlTextarea1" class="text-dark">Nom :</label
+                >
+              </div>
+              <div class="col">
+                <label for="exampleFormControlTextarea1" class="text-dark"
+                  >Niveau :</label
+                >
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group mb-3">
+                  <div class="input-group input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"
+                        ><i class="ni ni-single-02"></i
+                      ></span>
+                    </div>
+                    <input
+                      class="form-control text-dark"
+                      formControlName="nom"
+                      placeholder="Nom"
+                      type="text"
+                      [ngClass]="
+                        (Nom?.touched || Nom?.dirty) && Nom?.errors
+                          ? 'is-invalid'
+                          : ''
+                      "
+                    />
+                    <div class="invalid-feedback">
+                      Ce champs est obligatoire
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group mb-3">
+                  <select
+                    formControlName="niveau"
+                    class="form-control text-dark"
+                    [ngClass]="
+                      Niveau.dirty && Niveau.errors ? 'is-invalid' : ''
+                    "
+                  >
+                    <option value="" disabled selected>
+                      Choisissez Niveau
+                    </option>
+                    <option value="premiére">Premiére</option>
+                    <option value="deuxiéme">Deuxiéme</option>
+                    <option value="troisiéme">Troisiéme</option>
+                  </select>
+                  <div class="invalid-feedback">Ce champs est obligatoire</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <label for="exampleFormControlTextarea1" class="text-dark"
+                  >Specialité :</label
+                >
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group formm">
+                  <select
+                    formControlName="spec"
+                    class="form-control text-dark"
+                    [ngClass]="Spec.dirty && Spec.errors ? 'is-invalid' : ''"
+                  >
+                    <option value="" disabled selected>
+                      Choisissez Specialite
+                    </option>
+                    <option
+                      [value]="specialite.id"
+                      *ngFor="let specialite of specialites"
+                    >
+                      {{ specialite.nom }}
+                    </option>
+                  </select>
+                  <div class="invalid-feedback">Ce champs est obligatoire</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button
+                type="submit"
+                [disabled]="addFormGroupe?.invalid"
+                class="btn btn-primary my-4"
+                (click)="successSwalAjout()"
+              >
+                <span class="btn-inner--icon"><i class="fa fa-plus"></i></span>
+                Ajouter le nouveau groupe
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #classic2 let-c="close" let-d="dismiss">
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-header bg-white">
+          <button (click)="annuler()" style="border: none;background: none; margin-left: 97%;">
+            <img  [src]="closeImage" style="border-style: none; width: 10px; height: 10px;">
+            </button>
+          <div class="text-muted text-center">
+            <h3>
+              Voir matieres de groupe: {{ groupeMa.niveau }} {{ groupeMa.nom }}
+            </h3>
+          </div>
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+          <div class="table-responsive">
+            <table class="table align-items-center table-flush">
+              <thead class="thead-light">
+                <tr>
+                  <th class="text-darker">Nom matiére</th>
+                  <th class="text-darker">Coef</th>
+                </tr>
+              </thead>
+
+              <tbody class="list">
+                <tr *ngFor="let matiere of groupeMa.matieres">
+                  <td>{{ matiere.nom }}</td>
+                  <td>{{ matiere.coef }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <br />
+            <div style="font-size: 13px" *ngIf="groupeMa.matieres.length == 0">
+              *Aucune matiére est affectée à cette matiére pour le moment
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #classic3 let-c="close" let-d="dismiss">
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card bg-secondary shadow border-0">
+        <div class="card-header bg-white">
+          <button (click)="annuler()" style="border: none;background: none; margin-left: 97%;">
+            <img  [src]="closeImage" style="border-style: none; width: 10px; height: 10px;">
+            </button>
+          <div class="text-muted text-center">
+            <h3>Tous les matiéres:</h3>
+          </div>
+        </div>
+        <div class="card-body px-lg-5 py-lg-5">
+          <form
+            role="form"
+            [formGroup]="addFormMatToGrp"
+            (ngSubmit)="add_MatToGrp()"
+          >
+            <div class="form-row">
+              <div class="col">
+                <label for="exampleFormControlTextarea1" class="text-dark"
+                  >Matiere :</label
+                >
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group mb-3">
+                  <select
+                    formControlName="nomMat"
+                    class="form-control text-dark"
+                    [ngClass]="
+                      NomMat.dirty && NomMat.errors ? 'is-invalid' : ''
+                    "
+                  >
+                    <option value="" disabled selected>
+                      Choisissez Matiére
+                    </option>
+                    <option [value]="mat.nom" *ngFor="let mat of matieres">{{mat.nom}}</option>
+                  </select>
+                  <div class="invalid-feedback">Ce champs est obligatoire</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button
+                type="submit"
+                [disabled]="addFormMatToGrp?.invalid"
+                class="btn btn-primary my-4"
+              >
+                <span class="btn-inner--icon"><i class="fa fa-plus"></i></span>
+                Affecter la matiere
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

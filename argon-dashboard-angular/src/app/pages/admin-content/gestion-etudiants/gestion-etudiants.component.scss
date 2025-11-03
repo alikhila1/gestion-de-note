@@ -1,0 +1,31 @@
+.card-heder{
+    display: inline;
+}
+
+.delete{
+    color:red;
+}
+.edit{
+    color:rgb(255, 255, 24);
+}
+.add_new{
+    text-shadow: none;
+		min-width: 100px;
+		border-radius: 50px;
+		line-height: 13px;
+
+}
+table.table td a {
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 5px;
+    min-width: 24px;
+} 
+.notDisplay{
+    display:none;
+}
+.modal-backdrop {
+    /* bug fix - no overlay */    
+    display: none;    
+}
+

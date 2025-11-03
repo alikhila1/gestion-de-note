@@ -1,0 +1,27 @@
+.input-false  {
+    border-color: red;
+    border-style: solid;
+    border-bottom-width: 2px;
+}
+
+.input-true {
+    border-color: green;
+    border-style: solid;
+    border-bottom-width: 2px;
+}
+
+.invalid-msg {
+    color: red;
+}
+
+.valid-msg {
+    color: green;
+}
+
+.iconmargin {
+    margin-right: 5px;
+}
+.icon-pass{
+    cursor: pointer;
+
+}   

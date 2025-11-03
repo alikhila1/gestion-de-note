@@ -1,0 +1,150 @@
+<div class="header pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Notes</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form role="form" [formGroup]="attribuerAbsenceForm">
+                        <div class="pl-lg-4">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group formm">
+                                        <label class="form-control-label" for="input-grouoe">Groupe:</label>
+                                        <select (change)="onGroupeSelected($event.target.value)" formControlName="groupe" class="form-control text-dark">
+                          <div class="invalid-feedback">
+                            Ce champs est obligatoire
+                          </div>
+                          <option  value="" disabled selected>
+                            Choisissez Groupe
+                          </option>
+                          <option  [value]="gp.id" *ngFor="let gp of groupes" > {{gp.niveau}} {{gp.nom}} {{gp.spec.nom}}</option>
+                        </select>
+                                        <div class="invalid-feedback">
+                                            Ce champs est obligatoire
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-lg-4">
+                      <div class="form-group formm">
+                        <label class="form-control-label">Matiere:</label>
+                        <select formControlName="matiere" class="form-control text-dark" >
+      
+                          <option value="" disabled selected>
+                            Choisissez Matiere
+                          </option>
+                          <option [value]="matiere.id" *ngFor="let matiere of matieres"> {{matiere.nom}}</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          Ce champs est obligatoire
+                        </div>
+                      </div>
+                    </div> -->
+                                <!-- <div class="col-lg-4"
+                    style="margin-top: 2.5%;">
+                        <button
+                type="button"
+                class="btn btn-success btn-xs add_new"
+                (click)="getAllEtudiants()"
+                
+              >
+                <i class="fa fa-search-plus" aria-hidden="true"></i> Voir Liste
+                Etudiants
+              </button>
+                    </div> -->
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-line ">
+                        <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+
+                            <div class="form-group- mb-0" [ngClass]="{ 'focused': focus === true }">
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-darker">Nom et Prénom</th>
+
+                                <th class="text-darker">Actions</th>
+                                <th class="text-darker">Nombre Absences</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="list">
+                            <tr *ngFor="
+                    let etudiant of EtudiantsAbs 
+                  ">
+                                <td>{{ etudiant[0] }} {{ etudiant[1] }}</td>
+
+
+
+                                <td>
+                                    <a class="button" (click)="ajouterAbsence(etudiant[2])" [style.background-color]="couleurFond" style="cursor:pointer" placement="top" ngbTooltip="add-Absence"><i class="material-icons">add</i></a
+                    >
+                  </td>
+                  <td>{{ etudiant[5] }} </td>
+                </tr>
+               
+              </tbody>
+            </table>
+          </div>
+  
+          <div class="card-footer py-4">
+            <nav aria-label="...">
+              <ul class="pagination justify-content-end mb-0">
+                <li
+                  class="page-item"
+                  [ngClass]="{ notDisplay: currentItem == 0 || taille == 0 }"
+                >
+                  <a
+                    class="page-link"
+                    (click)="updateIndex(currentItem - 1)"
+                    href="javascript:void(0)"
+                  >
+                    <i class="fas fa-angle-left"></i>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                                    </li>
+
+                                    <li *ngFor="let i of pageItems; let in = index" class="page-item" [ngClass]="{ active: currentItem == in }">
+                                        <a class="page-link" (click)="updateIndex(in)" href="javascript:void(0)">{{ in + 1 }}
+                  </a>
+                                    </li>
+
+                                    <li class="page-item" [ngClass]="{
+                    notDisplay: currentItem == taille - 1 || taille == 0
+                  }">
+                                        <a class="page-link" (click)="updateIndex(currentItem + 1)" href="javascript:void(0)">
+                                            <i class="fas fa-angle-right"></i>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                    </ul>
+                                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

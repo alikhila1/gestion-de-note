@@ -1,0 +1,68 @@
+package tn.enicarthage.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import tn.enicarthage.entities.Enseignant;
+import tn.enicarthage.entities.Groupe;
+import tn.enicarthage.repositories.EnseignantRepository;
+import tn.enicarthage.repositories.GroupeRepository;
+
+@Service
+public class EnseignantService implements IEnseignantService{
+	   
+	   @Autowired
+	   EnseignantRepository enseignantRepository;
+	   @Autowired
+	   GroupeRepository groupeRepository;
+	   
+	   @Override
+	   public void ajouterEnseignant(Enseignant e,int idGrp) {
+		   Groupe grp =  groupeRepository.findById(idGrp);
+		   e.getGroupes().add(grp);   
+		   enseignantRepository.save(e);
+       }
+	   @Override
+	   public Enseignant getEnseignantById(long id) {
+		   return enseignantRepository.findById(id).get();
+       }
+	   @Override
+	   public void modifierEnseignant(Enseignant e) {
+		   enseignantRepository.save(e);
+       }
+	   @Override
+	   public void supprimerEnseignantById(long id) {
+		   enseignantRepository.deleteById(id);
+       }
+	   
+	   @Override
+	   public List<Enseignant> listEnseignant(){
+
+			 List<Enseignant> l = (List<Enseignant>) enseignantRepository.findAll();
+			 return l;
+	   }
+	   
+	   @Override
+	   public Optional<Enseignant> getEnseignantLogged(String username,String passwd){
+		   
+		   //return enseignantRepository.findByUsernameAndPassword(username, passwd);
+		   Optional<Enseignant> enseignantOptional = enseignantRepository.findByUsername(username);
+		   BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+	        if (enseignantOptional.isPresent()) {
+	            Enseignant enseignant = enseignantOptional.get();
+	            if (encoder.matches(passwd, enseignant.getPassword())) {
+	                return enseignantOptional;
+	            }
+	        }
+	        return Optional.empty();
+	   }
+	   @Override
+	   public long countEnsignants() {
+	        return enseignantRepository.count();
+	    }
+	   
+}

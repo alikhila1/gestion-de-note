@@ -1,0 +1,94 @@
+<div class="header bg-gradient-white py-7 py-lg-6">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-4 ">
+                <div [hidden]="!show" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span class="alert-inner--icon"><i class="ni ni-notification-70"></i></span>
+                    <span class="alert-inner--text"><strong>  vérifiez login ou votre mot de passe !</strong> </span>
+                    <button type="button" (click)="show=false;" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+                </div>
+            </div>
+        </div>
+        <div class="header-body text-center mb-7">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <img src="./assets/img/logo.png" width="80px" height="30px" class="navbar-brand-img" alt="...">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="separator separator-bottom separator-skew zindex-100">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+      </svg>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container mt--8 pb-5">
+    <!-- Table -->
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-4 ">
+            <div class="card bg-secondary  border-2">
+                <div class="card-header bg-transparent pb-1 ">
+                    <div class="text-muted text-center mt-2 mb-1">
+                        <h1 class="text-default">Bienvenue !</h1>
+                    </div>
+
+                </div>
+                <div class="card-body px-lg-5 py-lg-5">
+
+                    <form role="form" [formGroup]="loginForm" (ngSubmit)="getAccess() ">
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" [ngClass]="{'input-false':(username?.touched ||username?.dirty)  && username?.errors,
+                                      'input-true':username?.touched && username?.valid }">
+                                      <i class="ni ni-single-02"></i></span>
+                                </div>
+                                <input class="form-control text-dark" formControlName="username" [ngClass]="{'input-false':(username?.touched ||username?.dirty)  && username?.errors,
+                              'input-true': username?.touched && username?.valid }" placeholder="Nom d'utilisateur" type="text">
+
+
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" [ngClass]="{'input-false':password?.touched  && password?.errors,
+                                  'input-true':password?.touched && password?.valid }">
+                                          <i class="ni ni-lock-circle-open"></i></span>
+                                </div>
+                                <input [ngClass]="{'input-false':password?.touched   && password?.errors,
+                              'input-true':password?.touched && password?.valid }" class="form-control text-dark" formControlName="password" placeholder="Mot de passe" [type]="type_input ? 'text' : 'password'">
+                                <div class="input-group-append ">
+                                    <span class="input-group-text" [ngClass]="{'input-false':password?.touched   && password?.errors,
+                                  'input-true':password?.touched && password?.valid }">
+                                    <i [ngClass]="{
+                                      'fa-eye-slash': !type_input,
+                                      'fa-eye': type_input
+                                    }"  (click)="changeInput()" class="fa fa-eye-slash icon-pass "></i>
+                                  </span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary mt-4"> <i class="ni ni-badge iconmargin">       </i>        Se connecter</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <a href="javascript:void(0)" class="text-light"><small>Mot de passe oublié ?</small></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

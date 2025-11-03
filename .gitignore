@@ -1,0 +1,19 @@
+# === Angular ===
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.env
+
+# === Spring Boot ===
+backend/target/
+backend/.mvn/
+backend/.env
+backend/application.properties
+backend/application.yml
+
+# === Global ===
+*.log
+*.tmp
+.idea/
+.vscode/
+.DS_Store
